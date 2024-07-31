@@ -1,0 +1,212 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <style>
+        #map {
+            height: 500px;
+        }
+
+        .legend {
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend i {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            float: left;
+        }
+    </style>
+    <title>Coimbatore Water Supply Network</title>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="legend" class="legend"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw"></script>
+    <script src="https://unpkg.com/leaflet-ajax"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <script>
+        var map = L.map('map').setView([11.0, 76.8], 11.5);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+
+        var drawControl = new L.Control.Draw({
+            draw: {
+                polygon: false,
+                polyline: true,
+                rectangle: false,
+                circle: false,
+                marker: true
+            },
+            edit: {
+                featureGroup: drawnItems,
+                remove: true
+            }
+        });
+        map.addControl(drawControl);
+
+        map.on(L.Draw.Event.CREATED, function (event) {
+            var layer = event.layer;
+            drawnItems.addLayer(layer);
+        });
+
+        // Load your GeoJSON data
+        var waterSupplyLayer = L.geoJSON.ajax("your-geojson-data.geojson", {
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup('<b>' + feature.properties.name + '</b><br>Diameter: ' + feature.properties.diameter);
+            }
+        });
+
+        // Marker clustering
+        var markers = L.markerClusterGroup();
+        markers.addLayer(waterSupplyLayer);
+        map.addLayer(markers);
+
+        // Custom legend
+        var legend = L.control({ position: 'bottomright' });
+
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'legend');
+            var labels = ['Water Source 1', 'Water Source 2', 'Water Source 3']; // Replace with actual types
+
+            labels.forEach(function (label) {
+                div.innerHTML += '<i style="background:' + getColor(label) + '"></i> ' + label + '<br>';
+            });
+
+            return div;
+        };
+
+        legend.addTo(map);
+
+        function getColor(type) {
+            // Replace with your color logic based on water resource type
+            return type === 'Water Source 1' ? 'blue' :
+                   type === 'Water Source 2' ? 'green' :
+                   type === 'Water Source 3' ? 'red' :
+                   'gray';
+        }
+    </script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+    <style>
+        #map {
+            height: 500px;
+        }
+
+        .legend {
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .legend i {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            float: left;
+        }
+    </style>
+    <title>Coimbatore Water Supply Network</title>
+</head>
+<body>
+    <div id="map"></div>
+    <div id="legend" class="legend"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-draw"></script>
+    <script src="https://unpkg.com/leaflet-ajax"></script>
+    <script src="https://unpkg.com/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+    <script>
+        var map = L.map('map').setView([11.0, 76.8], 11.5);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+
+        var drawControl = new L.Control.Draw({
+            draw: {
+                polygon: false,
+                polyline: true,
+                rectangle: false,
+                circle: false,
+                marker: true
+            },
+            edit: {
+                featureGroup: drawnItems,
+                remove: true
+            }
+        });
+        map.addControl(drawControl);
+
+        map.on(L.Draw.Event.CREATED, function (event) {
+            var layer = event.layer;
+            drawnItems.addLayer(layer);
+        });
+
+        // Load your GeoJSON data
+        var waterSupplyLayer = L.geoJSON.ajax("geo.json", {
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup('<b>' + feature.properties.name + '</b><br>Diameter: ' + feature.properties.diameter);
+            }
+        });
+
+        // Marker clustering
+        var markers = L.markerClusterGroup();
+        markers.addLayer(waterSupplyLayer);
+        map.addLayer(markers);
+
+        // Custom legend
+        var legend = L.control({ position: 'bottomright' });
+
+        legend.onAdd = function (map) {
+            var div = L.DomUtil.create('div', 'legend');
+            var labels = ['Water Source 1', 'Water Source 2', 'Water Source 3']; // Replace with actual types
+
+            labels.forEach(function (label) {
+                div.innerHTML += '<i style="background:' + getColor(label) + '"></i> ' + label + '<br>';
+            });
+
+            return div;
+        };
+
+        legend.addTo(map);
+
+        function getColor(type) {
+            // Replace with your color logic based on water resource type
+            return type === 'Water Source 1' ? 'green' :
+                   type === 'Water Source 2' ? 'green' :
+                   type === 'Water Source 3' ? 'green' :
+                   'gray';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Events Calendar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-gap: 10px;
+      margin-top: 20px;
+    }
+
+    .day {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    .event {
+      margin-top: 5px;
+      padding: 5px;
+      background-color: #f2f2f2;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>Community Events Calendar</h2>
+
+  <div class="calendar" id="calendar">
+    <!-- Calendar content will be dynamically generated using JavaScript -->
+  </div>
+
+  <script>
+    // Sample events data (you can replace this with your actual event data)
+    const events = [
+      { date: '2024-02-15', title: 'Local Festival' },
+      { date: '2024-02-20', title: 'Community Gathering' },
+      { date: '2024-02-28', title: 'Town Hall Meeting' },
+    ];
+
+    // Function to create a calendar
+    function createCalendar() {
+      const calendar = document.getElementById('calendar');
+
+      // Create day headers
+      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      daysOfWeek.forEach(day => {
+        const dayHeader = document.createElement('div');
+        dayHeader.classList.add('day');
+        dayHeader.textContent = day;
+        calendar.appendChild(dayHeader);
+      });
+
+      // Get the current month and year
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth();
+      const currentYear = currentDate.getFullYear();
+
+      // Set the calendar to the first day of the current month
+      const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      // Fill in the days of the previous month if needed
+      for (let i = 0; i < firstDayOfMonth.getDay(); i++) {
+        const emptyDay = document.createElement('div');
+        emptyDay.classList.add('day', 'empty');
+        calendar.appendChild(emptyDay);
+      }
+
+      // Fill in the days of the current month
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayElement = document.createElement('div');
+        dayElement.classList.add('day');
+        dayElement.textContent = day;
+
+        // Check if there are events on this day
+        const eventOnDay = events.find(event => {
+          const eventDate = new Date(event.date);
+          return eventDate.getFullYear() === currentYear &&
+            eventDate.getMonth() === currentMonth &&
+            eventDate.getDate() === day;
+        });
+
+        if (eventOnDay) {
+          const eventElement = document.createElement('div');
+          eventElement.classList.add('event');
+          eventElement.textContent = eventOnDay.title;
+          dayElement.appendChild(eventElement);
+        }
+
+        calendar.appendChild(dayElement);
+      }
+    }
+
+    // Call the function to create the calendar
+    createCalendar();
+  </script>
+
+</body>
+
+</html>

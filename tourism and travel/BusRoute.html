@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus Routes</title>
+  <style>
+    /* Reset some default styles */
+body, h2, table, input {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  background-color:rgb(252, 207, 125);
+}
+
+h2 {
+  margin: 20px 0;
+  text-align: center;
+}
+
+/* Style for the table */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #4d90fe; /* Gmail blue color */
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* Search bar styling */
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Responsive table */
+@media (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+  }
+
+  td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  /* Label the data */
+  td:nth-of-type(1):before { content: "Bus No"; }
+  td:nth-of-type(2):before { content: "From"; }
+  td:nth-of-type(3):before { content: "To"; }
+}
+  </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Bus Routes</h2>
+    
+        <input type="text" id="searchInput" placeholder="Search by location..." oninput="searchBusRoutes()">
+    
+        <table id="busRoutesTable">
+          <!-- Table content will be dynamically generated using JavaScript -->
+        </table>
+      </div>
+  <table id="busRoutesTable">
+    <!-- Table content will be dynamically generated using JavaScript -->
+  </table>
+
+  <script>
+    // Fetch the bus route data from the JSON file
+    fetch('bus_routes.json')
+      .then(response => response.json())
+      .then(data => {
+        // Get the bus routes array from the JSON data
+        const busRoutes = data.bus_routes;
+
+        // Create the table header
+        const table = document.getElementById('busRoutesTable');
+        const headerRow = table.insertRow(0);
+        Object.keys(busRoutes[0]).forEach(key => {
+          const th = document.createElement('th');
+          th.textContent = key;
+          headerRow.appendChild(th);
+        });
+
+        // Populate the table with bus route data
+        busRoutes.forEach(route => {
+          const row = table.insertRow();
+          Object.values(route).forEach(value => {
+            const cell = row.insertCell();
+            cell.textContent = value;
+          });
+        });
+      })
+      .catch(error => console.error('Error fetching bus route data:', error));
+
+      function searchBusRoutes() {
+  const input = document.getElementById('searchInput');
+  const filter = input.value.toUpperCase();
+  const table = document.getElementById('busRoutesTable');
+  const rows = table.getElementsByTagName('tr');
+
+  for (let i = 0; i < rows.length; i++) {
+    const cells = rows[i].getElementsByTagName('td');
+    let found = false;
+
+    for (let j = 0; j < cells.length; j++) {
+      const cellText = cells[j].textContent || cells[j].innerText;
+
+      if (cellText.toUpperCase().indexOf(filter) > -1) {
+        found = true;
+        break;
+      }
+    }
+
+    rows[i].style.display = found ? '' : 'none';
+  }
+}
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+/* styles.css */
+
+body {
+  --wp--preset--color--black: #008000 !important;
+  --wp--preset--color--cyan-bluish-gray: #008000 !important;
+  --wp--preset--color--white: #008000 !important;
+  --wp--preset--color--pale-pink: #008000 !important;
+  --wp--preset--color--vivid-red: #008000 !important;
+  --wp--preset--color--luminous-vivid-orange: #008000 !important;
+  --wp--preset--color--luminous-vivid-amber: #008000 !important;
+  --wp--preset--color--light-green-cyan: #008000 !important;
+  --wp--preset--color--vivid-green-cyan: #008000 !important;
+  --wp--preset--color--pale-cyan-blue: #008000 !important;
+  --wp--preset--color--vivid-cyan-blue: #008000 !important;
+  --wp--preset--color--vivid-purple: #008000 !important;
+  --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg, rgba(0, 128, 0, 1) 0%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg, rgba(0, 128, 0, 1) 0%, rgba(0, 128, 0, 1) 100%) !important;
+  --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg, rgba(0, 128, 0, 1) 0%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 20%, rgb(0, 128, 0) 40%, rgb(0, 128, 0) 60%, rgb(0, 128, 0) 80%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--gradient--blush-light-purple: linear-gradient(135deg, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 50%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--gradient--luminous-dusk: linear-gradient(135deg, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 50%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--gradient--pale-ocean: linear-gradient(135deg, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 50%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--gradient--electric-grass: linear-gradient(135deg, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--gradient--midnight: linear-gradient(135deg, rgb(0, 128, 0) 0%, rgb(0, 128, 0) 100%) !important;
+  --wp--preset--font-size--small: 13px !important;
+  --wp--preset--font-size--medium: 20px !important;
+  --wp--preset--font-size--large: 36px !important;
+  --wp--preset--font-size--x-large: 42px !important;
+  --wp--preset--spacing--20: 0.44rem !important;
+  --wp--preset--spacing--30: 0.67rem !important;
+}

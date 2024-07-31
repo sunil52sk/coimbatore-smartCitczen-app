@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complaint Submission Form</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      margin-top: 0%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      margin-top: 50px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input,
+    textarea,
+    button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    input[type="file"] {
+      margin-top: 10px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+    }
+
+  </style>
+</head>
+<body>
+  <div>
+    <form id="complaintForm">
+
+      <h2>Complaint Submission Form</h2>
+      <button id="getLocation" type="menu">Get Location</button>
+      <div id="locationResult"></div>
+      <br>
+      <label for="fileinp">Upload image</label>
+      <input
+        type="file"
+        class="inputfile"
+        id="fileInp"
+        accept="image/*"
+      />
+      <span class="fileText"></span>
+      <button id="uploadImage">Upload Image</button>
+      <div class="bar" style="height: 25px; width: 300px; background: rgb(207, 207, 207);">
+        <div class="progress" style="background: linear-gradient(12deg,green,seagreen); height: 100%; width: 5%;"></div>
+      </div>
+      <div class="uploadPercentage">0%</div>
+      <br>
+
+      </br>
+      </br>
+      <label for="username">UserName:</label>
+      <input type="text" id="username" name="username" placeholder="Username" required>
+
+      <label for="description">Description:</label></br></br>
+      <textarea id="description" name="description" rows="4" cols="50" required></textarea>
+      <br>
+      <label for="location">Location:</label>
+      <input type="text" id="location" name="location" placeholder="Enter location">
+      <p style="color: red;">Note:</p>
+      <note>please upload the image before submitting the form</note>
+      <button type="submit" id="complaint">Submit</button>
+    </form>
+  </div>
+  <script type="module" id="MainScript">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+    import { getDatabase, ref as databaseRef, set } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+    import { getStorage, ref as sr, uploadBytes, getDownloadURL,uploadBytesResumable } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC8Lpuop0vklL_hvk74hlWdc1UvGkuEK2Q",
+      authDomain: "smart-citizen-app-ddc52.firebaseapp.com",
+      projectId: "smart-citizen-app-ddc52",
+      storageBucket: "smart-citizen-app-ddc52.appspot.com",
+      messagingSenderId: "64279865140",
+      appId: "1:64279865140:web:abea1655e478f2f45ea761"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const storage=getStorage(app);
+    var fileText = document.querySelector(".fileText");
+    var uploadPercentage = document.querySelector(".uploadPercentage");
+    var progress = document.querySelector(".progress");
+    var percentVal;
+    var fileItem;
+    var fileName;
+    var ImgURL;
+    document.getElementById("fileInp").addEventListener('change', function (e) {
+      fileItem = e.target.files[0];
+      fileName = fileItem.name;
+      fileText.innerHTML = fileName;
+    });
+    
+    document.getElementById("uploadImage").addEventListener('click', function () {
+        const storageRef = sr(storage, 'images/'+fileName);
+        const metadata = {
+  contentType: 'image/jpeg'
+};
+
+const uploadTask = uploadBytesResumable(storageRef, fileItem, metadata);
+uploadTask.on('state_changed',
+  (snapshot) => {
+    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+    const percent = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    // console.log('Upload is ' + progress + '% done');
+    uploadPercentage.innerHTML=percent+"%";
+    progress.style.width=percent+"%";
+    switch (snapshot.state) {
+      case 'paused':
+        console.log('Upload is paused');
+        break;
+      case 'running':
+        console.log('Upload is running');
+        break;
+    }
+  }, 
+  (error) => {
+    // A full list of error codes is available at
+    // https://firebase.google.com/docs/storage/web/handle-errors
+    switch (error.code) {
+      case 'storage/unauthorized':
+        // User doesn't have permission to access the object
+        break;
+      case 'storage/canceled':
+        // User canceled the upload
+        break;
+
+      // ...
+
+      case 'storage/unknown':
+        // Unknown error occurred, inspect error.serverResponse
+        break;
+    }
+  }, 
+  () => {
+    // Upload completed successfully, now we can get the download URL
+    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+      ImgURL=downloadURL;
+      console.log('File available at', downloadURL);
+    });
+  }
+);
+        console.log("uploaded")
+      //     let storageRef = getStorage(app).sr('photos/'+fileText)
+      // let fileUpload = document.getElementById("fileInp")
+      // fileUpload.addEventListener('change', function(evt) {
+      //       let firstFile = evt.target.files[0] // upload the first file only
+      //       let uploadTask = storageRef.put(firstFile)
+      // console.log("uploaded");
+  })
+    document.getElementById("complaint").addEventListener('click', function (e) {
+      e.preventDefault();
+      set(databaseRef(db, 'user/' + document.getElementById("username").value), {
+        username: document.getElementById("username").value,
+        Complint: document.getElementById("description").value,
+        Location: document.getElementById("location").value,
+        ImageName:fileName,
+        ImageURL:ImgURL
+      });
+      alert("Complaint Submitted ");
+    });
+
+    document.getElementById("getLocation").addEventListener("click", function () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+        alert("Geolocation is not supported by this browser.");
+      }
+    });
+
+    function showPosition(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+
+      document.getElementById("location").value = latitude + ", " + longitude;
+
+      document.getElementById("locationResult").innerHTML =
+        "Latitude: " + latitude + "<br>Longitude: " + longitude;
+    }
+
+    function showError(error) {
+      switch (error.code) {
+        case error.PERMISSION_DENIED:
+          alert("User denied the request for Geolocation.");
+          break;
+        case error.POSITION_UNAVAILABLE:
+          alert("Location information is unavailable.");
+          break;
+        case error.TIMEOUT:
+          alert("The request to get user location timed out.");
+          break;
+        case error.UNKNOWN_ERROR:
+          alert("An unknown error occurred.");
+          break;
+      }
+    }
+  </script>
+</body>
+</html>
